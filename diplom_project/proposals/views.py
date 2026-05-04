@@ -13,10 +13,7 @@ from users.permissions import IsContractor, IsClient
 
 class ProposalViewSet(viewsets.ModelViewSet):
     serializer_class = ProposalSerializer
-    def get_permissions(self):
-        if self.action == "accept":
-            return [permissions.IsAuthenticated(), IsClient()]
-        return [permissions.IsAuthenticated(), IsContractor()]
+    permission_classes = [permissions.IsAuthenticated, IsContractor | IsClient]
 
     def get_queryset(self):
         user = self.request.user
@@ -27,7 +24,7 @@ class ProposalViewSet(viewsets.ModelViewSet):
         if user.role == "client":
             return Proposal.objects.filter(job__client = user)
 
-        return Proposal.objects.all()
+        return Proposal.objects.none()
 
     def perform_create(self, serializer):
         job = serializer.validated_data.get("job")
@@ -40,6 +37,9 @@ class ProposalViewSet(viewsets.ModelViewSet):
     #accept
     @action(detail=True, methods=['post'])
     def accept(self, request, pk=None):
+        if request.user.role != "client":
+            return Response({"error": "Only client can accept"}, status=403)
+            
         proposal = accept_proposal(request.user, pk)
         return Response(self.get_serializer(proposal).data)
 # Create your views here.

@@ -6,6 +6,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
+    
 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -14,3 +15,7 @@ api.interceptors.request.use((config) => {
 })
 
 export default api;
+export const getMe = async () => {
+        const res = await api.get("/api/me/");
+        return res.data;
+    };

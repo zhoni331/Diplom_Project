@@ -1,4 +1,5 @@
 from rest_framework.exceptions import NotAuthenticated
+from django.shortcuts import get_object_or_404
 from .models import Proposal
 from jobs.models import JobRequest
 
@@ -17,9 +18,11 @@ def create_proposal(user, data):
     return Proposal.objects.cretae(contractor = user, **data)
 
 def accept_proposal(user, proposal_id):
+
+
     if user.role != "client":
         raise Exception("Only client can accept proposal")
-    proposal = Proposal.objects.get(id=proposal_id)
+    proposal = get_object_or_404(Proposal, id=proposal_id)
     job = proposal.job
 
     #only client-owner
@@ -30,6 +33,10 @@ def accept_proposal(user, proposal_id):
     if job.status != JobRequest.Status.OPEN:
         raise Exception("Job is alredy taken")
 
+    job.contractor = proposal.contractor
+    job.status = JobRequest.Status.IN_PROGRESS
+    job.save()
+
     proposal.status = Proposal.Status.ACCEPTED
     proposal.save()
 
@@ -38,7 +45,5 @@ def accept_proposal(user, proposal_id):
         status = Proposal.Status.Rejected
     )
 
-    job.status = JobRequest.Status.IN_PROGRESS
-    job.save()
     return proposal 
 
