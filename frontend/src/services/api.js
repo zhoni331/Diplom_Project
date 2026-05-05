@@ -17,5 +17,6 @@ api.interceptors.request.use((config) => {
 export default api;
 export const getMe = async () => {
         const res = await api.get("/api/me/");
+        localStorage.setItem("user", JSON.stringify(me.data));
         return res.data;
     };

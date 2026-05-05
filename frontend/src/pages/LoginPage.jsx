@@ -18,6 +18,10 @@ export default function LoginPage() {
         password,
       });
 
+      const me = await api.get("/api/me/");
+
+      localStorage.setItem("user", JSON.stringify(me.data));
+
       console.log(res.data); // 👈 добавь
 
       login(res.data.access);

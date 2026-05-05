@@ -64,8 +64,9 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods = ['post'])
     def complete(self, request, pk=None):
-        set_status(request.user, pk, JobRequest.Status.COMPLETED)
-        return Response({"message": "Job Completed"})
+        job = self.get_object()
+        set_status(request.user, job.id, JobRequest.Status.COMPLETED)
+        return Response(self.get_serializer(job).data)
 
     @action(detail=True, methods = ['post'])
     def cancel(self, request, pk=None):

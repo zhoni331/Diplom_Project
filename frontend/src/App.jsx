@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import CreateJob from "./pages/CreateJob";
 import JobsFeed from "./pages/JobsFeed";
 import ProposalsPage from "./pages/ProposalsPage";
+import JobPage from "./pages/JobPage";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +28,7 @@ function App() {
         <Route path="/create-job" element={<CreateJob />} />
         <Route path="/jobs" element={<JobsFeed />} />
         <Route path="/proposals" element={<ProposalsPage />} />
+        <Route path="/jobs/:id" element={<JobPage />} />
       </Routes>
     </BrowserRouter>
   )
