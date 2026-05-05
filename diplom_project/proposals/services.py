@@ -42,7 +42,7 @@ def accept_proposal(user, proposal_id):
 
         #отклоняем остальные 
     Proposal.objects.filter(job = job).exclude(id = proposal.id).update(
-        status = Proposal.Status.Rejected
+        status = Proposal.Status.REJECTED
     )
 
     return proposal 

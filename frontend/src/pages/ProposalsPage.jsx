@@ -24,13 +24,17 @@ const ProposalsPage = () => {
             await api.post(`/proposals/${id}/accept/`);
             alert("Заявка принята");
 
-                // Обновляем список заявок после принятия
-            const res = await api.get("/proposals/");
-            setProposals(res.data);
+            setProposals(prev =>
+            prev.map(p =>
+                p.id === id
+                    ? { ...p, status: "accepted" }
+                    : { ...p, status: "rejected" }
+            )
+        );
 
 
         } catch (err) {
-            console.error(err);
+            console.error(err.response?.data || err);
             alert("Ошибка при принятии заявки");
         }
     };

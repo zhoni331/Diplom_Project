@@ -4,6 +4,7 @@ import { createProposal } from "../services/proposal";
 import { useState } from "react";
 
 export default function JobCard({ job }) {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [price, setPrice] = useState("");
   const handleApply = async () => {
@@ -11,13 +12,13 @@ export default function JobCard({ job }) {
       await createProposal(job.id, message, price);
       alert("Заявка отправлена");
     } catch (err) {
-      console.error(err);
+      console.error(err.response?.data || err);
       alert("Ошибка при отправке заявки");
     }
   }
   const [showform, setShowForm] = useState(false);
   return (
-    <div onClick={() => navigate(`/jobs/${job.id}`)}>
+    <div>
       <div style={{
       border: "1px solid #ccc",
       padding: "15px",
