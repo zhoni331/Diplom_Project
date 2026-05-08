@@ -9,6 +9,9 @@ export default function JobCard({ job }) {
   const [price, setPrice] = useState("");
   const [showform, setShowForm] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isContractor = user?.role === "contractor";
+
   const handleApply = async () => {
     try {
       await createProposal(job.id, message, price);
@@ -31,37 +34,41 @@ export default function JobCard({ job }) {
         <span>💰 {job.budget}</span>
       </div>
 
-      {!showform ? (
-        <div className="job-actions">
-          <button type="button" className="button-primary" onClick={() => setShowForm(true)}>
-            View Details
-          </button>
-        </div>
-      ) : (
-        <div className="form-card">
-          <div className="form-group">
-            <input
-              placeholder="Сообщение"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              placeholder="Цена"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
-          <div className="job-actions">
-            <button type="button" className="button-primary" onClick={handleApply}>
-              Отправить
-            </button>
-            <button type="button" className="button-secondary" onClick={() => setShowForm(false)}>
-              Отмена
-            </button>
-          </div>
-        </div>
+      {isContractor && (
+        <>
+          {!showform ? (
+            <div className="job-actions">
+              <button type="button" className="button-primary" onClick={() => setShowForm(true)}>
+                View Details
+              </button>
+            </div>
+          ) : (
+            <div className="form-card">
+              <div className="form-group">
+                <input
+                  placeholder="Сообщение"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  placeholder="Цена"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+              <div className="job-actions">
+                <button type="button" className="button-primary" onClick={handleApply}>
+                  Отправить
+                </button>
+                <button type="button" className="button-secondary" onClick={() => setShowForm(false)}>
+                  Отмена
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </article>
   );

@@ -24,6 +24,12 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return get_all_users()
 
+    def retrieve(self, request, *args, **kwargs):
+        # Allow anyone to view profiles
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
     def perform_create(self, serializer):
         return create_user(serializer.validated_data)
     
@@ -46,10 +52,8 @@ class MeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        return Response({
-            "email": request.user.email,
-            "role": request.user.role,
-        })
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
     
 

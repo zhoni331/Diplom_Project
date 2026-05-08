@@ -15,7 +15,7 @@ def create_proposal(user, data):
     if job.status != JobRequest.Status.OPEN:
         raise Exception("Cannot respond to non-open job")
 
-    return Proposal.objects.cretae(contractor = user, **data)
+    return Proposal.objects.create(contractor = user, **data)
 
 def accept_proposal(user, proposal_id):
 
@@ -40,10 +40,8 @@ def accept_proposal(user, proposal_id):
     proposal.status = Proposal.Status.ACCEPTED
     proposal.save()
 
-        #отклоняем остальные 
-    Proposal.objects.filter(job = job).exclude(id = proposal.id).update(
-        status = Proposal.Status.REJECTED
-    )
+    #отклоняем остальные 
+    other_proposals = Proposal.objects.filter(job=job).exclude(id=proposal.id)
 
     return proposal 
 

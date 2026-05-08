@@ -39,6 +39,12 @@ class User(AbstractUser):
         default='client'
     )
 
+    @property
+    def average_rating(self):
+        from django.db.models import Avg
+        avg = self.received_ratings.aggregate(Avg('rating'))['rating__avg']
+        return round(avg, 2) if avg else 0.00
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

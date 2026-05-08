@@ -27,8 +27,9 @@ urlpatterns = [
     path('', include('users.urls')),
     path('api/', include('users.urls')),
     path('orders/', include('orders.urls')),
-    path('jobs/', include('jobs.urls')), 
-    path('proposals/', include('proposals.urls')),   
+    path('jobs/', include('jobs.urls')),
+    path('proposals/', include('proposals.urls')),
+    path('ratings/', include('proposals.rating_urls')),
 
     #JWT
     path('api/token/', TokenObtainPairView.as_view()),

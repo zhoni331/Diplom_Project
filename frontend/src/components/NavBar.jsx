@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -16,25 +16,36 @@ export default function NavBar() {
                 <Link to="/">Freelance Platform</Link>
             </div>
             <div className="nav-links">
-                <Link to="/">Home</Link>
-                {user?.role === "client" && (
+                {user ? (
                     <>
-                        <Link to="/create-job">Create Job</Link>
-                        <Link to="/proposals">My Proposals</Link>
+                        <Link to="/">Home</Link>
+                        {user.role === "client" && (
+                            <>
+                                <Link to="/client">Dashboard</Link>
+                                <Link to="/create-job">Create Job</Link>
+                                <Link to="/proposals">My Proposals</Link>
+                            </>
+                        )}
+
+                        {user.role === "contractor" && (
+                            <>
+                                <Link to="/contractor">Dashboard</Link>
+                                <Link to="/jobs">Find Jobs</Link>
+                                <Link to="/my-proposals">My Proposals</Link>
+                            </>
+                        )}
+
+                        <Link to="/profile">Profile</Link>
+                        <button type="button" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
                     </>
                 )}
-
-                {user?.role === "contractor" && (
-                    <>
-                        <Link to="/">Find Jobs</Link>
-                        <Link to="/my-proposals">My Proposals</Link>
-                    </>
-                )}
-
-                <Link to="/profile">Profile</Link>
-                <button type="button" onClick={handleLogout}>
-                    Logout
-                </button>
             </div>
         </nav>
     );

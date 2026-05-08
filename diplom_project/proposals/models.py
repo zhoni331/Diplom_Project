@@ -35,4 +35,28 @@ class Proposal(models.Model):
 
     def __str__(self):
         return f"Proposal {self.id} - {self.status}"
+
+class Rating(models.Model):
+    job = models.OneToOneField(
+        JobRequest,
+        on_delete=models.CASCADE,
+        related_name='rating'
+    )
+    client = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='given_ratings'
+    )
+    contractor = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='received_ratings'
+    )
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1-5 stars
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Rating for {self.job.title} - {self.rating} stars"
+
 # Create your models here.

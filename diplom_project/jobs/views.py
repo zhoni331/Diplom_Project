@@ -43,9 +43,21 @@ class JobRequestViewSet(viewsets.ModelViewSet):
         return qs.order_by('-created_at')
 
     def perform_create(self, serializer):
-        if not serializer.validated_data.get("budget"):
-            raise ValidationError({"budget": "This field is required"})
+        budget = serializer.validated_data.get("budget")
+        if budget is None or budget <= 0:
+            raise ValidationError({"budget": "Budget must be greater than 0"})
         serializer.save(client=self.request.user)
+
+    @action(detail=True, methods=['post'])
+    def complete(self, request, pk=None):
+        job = self.get_object()
+        if job.client != request.user:
+            return Response({"error": "Only client can complete job"}, status=403)
+        if job.status != JobRequest.Status.IN_PROGRESS:
+            return Response({"error": "Job must be in progress"}, status=400)
+        job.status = JobRequest.Status.COMPLETED
+        job.save()
+        return Response(self.get_serializer(job).data)
        
 
     def perform_update(self, serializer):

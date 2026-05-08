@@ -21,9 +21,9 @@ export default function LoginPage() {
       console.log(res.data);
 
       login(res.data.access);
-      navigate("/");
       const me = await api.get("/api/me/");
       localStorage.setItem("user", JSON.stringify(me.data));
+      navigate("/");
     } catch (err) {
       console.log("ERROR:", err);
       console.log(err);

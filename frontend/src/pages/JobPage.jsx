@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import api from "../services/api";
 
 export default function JobPage() {
@@ -20,7 +20,7 @@ export default function JobPage() {
       const jobRes = await api.get(`/jobs/${id}/`);
       setJob(jobRes.data);
 
-      const propRes = await api.get("/proposals/");
+      const propRes = await api.get("/proposals/", { params: { t: Date.now() } });
       setProposals(propRes.data);
     } catch (err) {
       console.error(err);
@@ -84,20 +84,38 @@ export default function JobPage() {
       {user?.role === "client" && (
         <section className="form-card section-block">
           <h3 className="section-title">Отклики</h3>
+          {console.log('User role:', user?.role, 'Is client?', user?.role === "client")}
+          {console.log('All proposals:', proposals)}
+          {console.log('Job ID:', job?.id)}
           {proposals
-            .filter((p) => p.job === job.id)
+            .filter((p) => {
+              const match = p.job === job?.id;
+              console.log('Checking proposal', p.id, '- job:', p.job, 'target job:', job?.id, 'match:', match);
+              return match;
+            })
             .map((p) => (
               <article key={p.id} className="card">
                 <div className="proposal-row">
+                  <p>Contractor: {p.contractor_email}</p>
                   <p>{p.message}</p>
                   <p>Цена: {p.price}</p>
                   <p>Status: {p.status}</p>
                 </div>
-                {p.status === "pending" && (
-                  <button type="button" className="button-primary" onClick={() => handleAccept(p.id)}>
-                    Accept
-                  </button>
-                )}
+                <div className="proposal-actions">
+                  {console.log('Proposal data:', p)}
+                  {p.contractor_id ? (
+                    <Link to={`/contractor/${p.contractor_id}`} className="button-secondary">
+                      View Profile
+                    </Link>
+                  ) : (
+                    <span>No contractor_id</span>
+                  )}
+                  {p.status === "pending" && (
+                    <button type="button" className="button-primary" onClick={() => handleAccept(p.id)}>
+                      Accept
+                    </button>
+                  )}
+                </div>
               </article>
             ))}
         </section>

@@ -33,7 +33,7 @@ def create_job(user, data):
     if user.role != 'client':
         raise PermissionError("Only clients can create job requests.")
 
-    return JobRequest.objects.create(user=user, **data)
+    return JobRequest.objects.create(client=user, **data)
 
 def update_job(user, job_id, data):
     job = get_job_or_404(job_id)
@@ -45,7 +45,7 @@ def update_job(user, job_id, data):
         raise InvalidStatusTransitionException("Cannot modify closed job")
 
     for field, value in data.items():
-        settart(job, field, value)
+        setattr(job, field, value)
 
     job.save()
     return job
@@ -81,18 +81,11 @@ def set_status(user, job_id, new_status):
     if new_status == JobRequest.Status.CANCELLED:
         # можно отклонить все proposals
         from proposals.models import Proposal
-        Proposal.objects.filter(job=job).update(status="rejected")
+        Proposal.objects.filter(job=job).update(status=Proposal.Status.REJECTED)
 
     job.status = new_status
     job.save()
 
-    return job
-
-    if new_status not in allowed[current]:
-        raise InvalidStatusTransitionException()
-
-    job.status = new_status
-    job.save()
     return job
 
 

@@ -11,9 +11,19 @@ export default function CreateJob() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await createJob(form);
+    const data = {
+      title: form.title,
+      description: form.description,
+      budget: Number(form.budget),
+    };
 
-    alert("Заявка создана");
+    try {
+      await createJob(data);
+      alert("Заявка создана");
+    } catch (err) {
+      console.error('Error details:', err.response?.data || err.message);
+      alert('Ошибка: ' + JSON.stringify(err.response?.data || err.message));
+    }
   };
 
   return (
@@ -26,6 +36,7 @@ export default function CreateJob() {
               placeholder="Название"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
+              required
             />
           </div>
 
@@ -34,6 +45,7 @@ export default function CreateJob() {
               placeholder="Описание"
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
+              required
             />
           </div>
 
@@ -42,7 +54,10 @@ export default function CreateJob() {
               type="number"
               placeholder="Бюджет"
               value={form.budget}
-              onChange={(e) => setForm({ ...form, budget: Number(e.target.value) })}
+              onChange={(e) => setForm({ ...form, budget: e.target.value })}
+              required
+              min="0.01"
+              step="0.01"
             />
           </div>
 

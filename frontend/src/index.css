@@ -147,6 +147,16 @@ select {
   gap: 18px;
 }
 
+.job-card {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+}
+
 .job-card h3,
 .proposal-card h3,
 .form-card h2 {
@@ -182,10 +192,15 @@ select {
 }
 
 .job-card .job-actions,
-.proposal-card .proposal-actions {
+.proposal-card .proposal-actions,
+.proposal-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.proposal-actions a {
+  text-decoration: none;
 }
 
 .form-card {
