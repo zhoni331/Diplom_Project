@@ -25,14 +25,12 @@ const ProposalsPage = () => {
             alert("Заявка принята");
 
             setProposals(prev =>
-            prev.map(p =>
-                p.id === id
-                    ? { ...p, status: "accepted" }
-                    : { ...p, status: "rejected" }
-            )
-        );
-
-
+                prev.map(p =>
+                    p.id === id
+                        ? { ...p, status: "accepted" }
+                        : { ...p, status: "rejected" }
+                )
+            );
         } catch (err) {
             console.error(err.response?.data || err);
             alert("Ошибка при принятии заявки");
@@ -40,20 +38,29 @@ const ProposalsPage = () => {
     };
 
     return (
-        <div>
-            <h2>Отклики</h2>
+        <div className="page-shell">
+            <h2 className="section-title">Отклики</h2>
 
-            {proposals.map(p => (
-                <div key = {p.id}>
-                    <p>Job: {p.job}</p>
-                    <p>Message: {p.message}</p>
-                    <p>Price: {p.price}</p>
-                    {user?.role === "client" && p.status === "pending" && (
-                        <button onClick={() => handleAccept(p.id)}>Accept</button>
-                    )}
-                    <p>Status: {p.status}</p>
-                </div>
-            ))}
+            <div className="proposal-card">
+                {proposals.map(p => (
+                    <article key={p.id} className="card">
+                        <div className="proposal-row">
+                            <p><strong>Job:</strong> {p.job}</p>
+                            <p><strong>Message:</strong> {p.message}</p>
+                            <p><strong>Price:</strong> {p.price}</p>
+                            <p><strong>Status:</strong> {p.status}</p>
+                        </div>
+
+                        {user?.role === "client" && p.status === "pending" && (
+                            <div className="proposal-actions">
+                                <button type="button" className="button-primary" onClick={() => handleAccept(p.id)}>
+                                    Accept
+                                </button>
+                            </div>
+                        )}
+                    </article>
+                ))}
+            </div>
         </div>
     );
 };

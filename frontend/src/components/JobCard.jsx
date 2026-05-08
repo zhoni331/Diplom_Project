@@ -7,6 +7,8 @@ export default function JobCard({ job }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [price, setPrice] = useState("");
+  const [showform, setShowForm] = useState(false);
+
   const handleApply = async () => {
     try {
       await createProposal(job.id, message, price);
@@ -15,42 +17,53 @@ export default function JobCard({ job }) {
       console.error(err.response?.data || err);
       alert("Ошибка при отправке заявки");
     }
-  }
-  const [showform, setShowForm] = useState(false);
-  return (
-    <div>
-      <div style={{
-      border: "1px solid #ccc",
-      padding: "15px",
-      margin: "10px",
-      borderRadius: "10px"
-    }}>
-      <h3>{job.title}</h3>
-      <p>{job.description}</p>
-      <p><b>Status:</b> {job.status}</p>
-      <p><b>Budget:</b> {job.budget}</p>
+  };
 
-      {!showform ?(
-        <button onClick={() => setShowForm(true)}>
-          View Details
-        </button>
-      ) : (
-        <>
-          <input
-            placeholder="Сообщение"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <input
-            placeholder="Цена"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-          <button onClick={handleApply}>Отправить</button>
-        </>
-      )}
+  return (
+    <article className="card job-card">
+      <div>
+        <h3>{job.title}</h3>
+        <p>{job.description}</p>
       </div>
-    </div>
+
+      <div className="job-meta">
+        <span className="status-pill">{job.status}</span>
+        <span>💰 {job.budget}</span>
+      </div>
+
+      {!showform ? (
+        <div className="job-actions">
+          <button type="button" className="button-primary" onClick={() => setShowForm(true)}>
+            View Details
+          </button>
+        </div>
+      ) : (
+        <div className="form-card">
+          <div className="form-group">
+            <input
+              placeholder="Сообщение"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              placeholder="Цена"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+          <div className="job-actions">
+            <button type="button" className="button-primary" onClick={handleApply}>
+              Отправить
+            </button>
+            <button type="button" className="button-secondary" onClick={() => setShowForm(false)}>
+              Отмена
+            </button>
+          </div>
+        </div>
+      )}
+    </article>
   );
 }
 

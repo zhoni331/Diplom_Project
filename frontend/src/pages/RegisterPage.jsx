@@ -14,32 +14,39 @@ export default function RegisterPage() {
             alert("Registration successful! Please log in.");
         } catch (error) {
             console.error("Registration failed:", error);
-            };
-
+        }
     };
+
     return (
-        <div>
-            <h2>Register</h2>
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <select onChange={(e) => setRole(e.target.value)}>
-                <option value="client">Client</option>
-                <option value="contractor">Contractor</option>
-            </select>
-
-            
-            <button onClick={handleRegister}>Register</button>
+        <div className="auth-page">
+            <div className="form-card">
+                <h2>Регистрация</h2>
+                <div className="form-group">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <select>
+                        <option value="client">Client</option>
+                        <option value="contractor">Contractor</option>
+                    </select>
+                </div>
+                <button type="button" className="button-primary" onClick={handleRegister}>
+                    Register
+                </button>
+            </div>
         </div>
     );
 }

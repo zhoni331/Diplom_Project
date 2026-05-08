@@ -32,6 +32,9 @@ class ProposalViewSet(viewsets.ModelViewSet):
         if Proposal.objects.filter(job = job, contractor = self.request.user).exists():
             raise ValidationError("You have already applied for this job")
 
+        if user.role != "contractor":
+            raise ValidationError("Only contractor can send proposal")
+
         serializer.save(contractor=self.request.user)
 
     #accept

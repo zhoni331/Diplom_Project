@@ -12,6 +12,7 @@ import CreateJob from "./pages/CreateJob";
 import JobsFeed from "./pages/JobsFeed";
 import ProposalsPage from "./pages/ProposalsPage";
 import JobPage from "./pages/JobPage";
+import Layout from './components/Layout'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,16 +20,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = "/" element={<HomePage />} />
-        <Route path='/login' element={<LoginPage/>} />
-        <Route path='/register' element={<RegisterPage/>} />
-        <Route path='/client' element={<div>Client Dashboard</div>} />
-        <Route path='/contractor' element={<div>Contractor Dashboard</div>} />
-        <Route path='/dashboard' element={<div>Dashboard</div>} />
-        <Route path="/create-job" element={<CreateJob />} />
-        <Route path="/jobs" element={<JobsFeed />} />
-        <Route path="/proposals" element={<ProposalsPage />} />
-        <Route path="/jobs/:id" element={<JobPage />} />
+        <Route path = "/" element={<Layout><HomePage /></Layout>} />
+        <Route path='/login' element={<Layout><LoginPage/></Layout>} />
+        <Route path='/register' element={<Layout><RegisterPage/></Layout>} />
+        <Route path='/client' element={<Layout><div>Client Dashboard</div></Layout>} />
+        <Route path='/contractor' element={<Layout><div>Contractor Dashboard</div></Layout>} />
+        <Route path='/dashboard' element={<Layout><div>Dashboard</div></Layout>} />
+        <Route path="/create-job" element={<Layout><CreateJob /></Layout>} />
+        <Route path="/jobs" element={<Layout><JobsFeed /></Layout>} />
+        <Route path="/proposals" element={<Layout><ProposalsPage /></Layout>} />
+        <Route path="/jobs/:id" element={<Layout><JobPage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )

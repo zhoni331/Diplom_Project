@@ -12,12 +12,13 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h1>Jobs</h1>
-
-      {jobs.map((job) => (
-        <JobCard key={job.id} job={job} />
-      ))}
+    <div className="page-shell">
+      <h1 className="page-title">Jobs</h1>
+      <div className="jobs-grid">
+        {jobs.map((job) => (
+          <JobCard key={job.id} job={job} />
+        ))}
+      </div>
     </div>
   );
 }

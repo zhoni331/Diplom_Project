@@ -11,51 +11,49 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log("LOGIN CLICKED"); // 👈 добавь
+    console.log("LOGIN CLICKED");
     try {
       const res = await api.post("/api/token/", {
         email,
         password,
       });
 
-      const me = await api.get("/api/me/");
-
-      localStorage.setItem("user", JSON.stringify(me.data));
-
-      console.log(res.data); // 👈 добавь
+      console.log(res.data);
 
       login(res.data.access);
       navigate("/");
+      const me = await api.get("/api/me/");
+      localStorage.setItem("user", JSON.stringify(me.data));
     } catch (err) {
-      console.log("ERROR:", err); // 👈 добавь
+      console.log("ERROR:", err);
       console.log(err);
       alert("Ошибка логина");
     }
   };
 
   return (
-  <div style={{ 
-    display: "flex", 
-    justifyContent: "center", 
-    alignItems: "center", 
-    height: "100vh",
-    flexDirection: "column",
-    gap: "10px"
-  }}>
-    <h2>Login</h2>
-
-    <input
-      placeholder="email"
-      onChange={(e) => setEmail(e.target.value)}
-    />
-
-    <input
-      placeholder="password"
-      type="password"
-      onChange={(e) => setPassword(e.target.value)}
-    />
-
-    <button onClick={handleLogin}>Login</button>
-  </div>
-);
+    <div className="auth-page">
+      <div className="form-card">
+        <h2>Вход</h2>
+        <div className="form-group">
+          <input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="button" className="button-primary" onClick={handleLogin}>
+          Login
+        </button>
+      </div>
+    </div>
+  );
 }

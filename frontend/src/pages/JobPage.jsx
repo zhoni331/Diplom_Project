@@ -26,102 +26,106 @@ export default function JobPage() {
       console.error(err);
     }
   };
-    const handleAccept = async (proposalId) => {
-        try {
-            await api.post(`/proposals/${proposalId}/accept/`);
-            alert("Принято ✅");
-            fetchData();
-        } catch (err) {
-            console.error(err.response?.data || err);
+
+  const handleAccept = async (proposalId) => {
+    try {
+      await api.post(`/proposals/${proposalId}/accept/`);
+      alert("Принято ✅");
+      fetchData();
+    } catch (err) {
+      console.error(err.response?.data || err);
     }
   };
-    const handleComplete = async () => {
-        try {
-            await api.post(`/jobs/${id}/COMPLETE/`);
-            alert("Завершено ✅");
-            fetchData();
-        } catch (err) {
-            console.error(err.response?.data || err);
+
+  const handleComplete = async () => {
+    try {
+      await api.post(`/jobs/${id}/COMPLETE/`);
+      alert("Завершено ✅");
+      fetchData();
+    } catch (err) {
+      console.error(err.response?.data || err);
     }
   };
-    const [score, setScore] = useState(5);
-    const [comment, setComment] = useState("");
+
+  const [score, setScore] = useState(5);
+  const [comment, setComment] = useState("");
 
   const handleRate = async () => {
     try {
       await api.post("/ratings/", {
         job: id,
         score,
-        comment
+        comment,
       });
       alert("Оценка отправлена ⭐");
     } catch (err) {
       console.error(err.response?.data || err);
     }
   };
-    console.log("USER:", user);
-    console.log("JOB:", job);
 
-    if (!job) return <p>Loading...</p>;
+  if (!job) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h2>{job.title}</h2>
-      <p>{job.description}</p>
-      <p>Status: {job.status}</p>
+    <div className="page-shell">
+      <article className="card">
+        <h2>{job.title}</h2>
+        <p>{job.description}</p>
+        <div className="job-meta">
+          <span className="status-pill">{job.status}</span>
+        </div>
 
-      {/* 🔥 COMPLETE */}
-      {user?.role === "client" && job.status === "in_progress" && (
-        <button onClick={handleComplete}>
-          Завершить работу
-        </button>
-      )}
+        {user?.role === "client" && job.status === "in_progress" && (
+          <button type="button" className="button-primary" onClick={handleComplete}>
+            Завершить работу
+          </button>
+        )}
+      </article>
 
-      {/* 🔥 PROPOSALS (только для клиента) */}
       {user?.role === "client" && (
-        <div>
-          <h3>Отклики</h3>
-
+        <section className="form-card section-block">
+          <h3 className="section-title">Отклики</h3>
           {proposals
-            .filter(p => p.job === job.id)
-            .map(p => (
-              <div key={p.id}>
-                <p>{p.message}</p>
-                <p>Цена: {p.price}</p>
-                <p>Status: {p.status}</p>
-
+            .filter((p) => p.job === job.id)
+            .map((p) => (
+              <article key={p.id} className="card">
+                <div className="proposal-row">
+                  <p>{p.message}</p>
+                  <p>Цена: {p.price}</p>
+                  <p>Status: {p.status}</p>
+                </div>
                 {p.status === "pending" && (
-                  <button onClick={() => handleAccept(p.id)}>
+                  <button type="button" className="button-primary" onClick={() => handleAccept(p.id)}>
                     Accept
                   </button>
                 )}
-              </div>
+              </article>
             ))}
-        </div>
+        </section>
       )}
 
-      {/* 🔥 RATING */}
       {user?.role === "client" && job.status === "completed" && (
-        <div>
-          <h3>Оценить исполнителя</h3>
-
-          <input
-            type="number"
-            min="1"
-            max="5"
-            value={score}
-            onChange={(e) => setScore(e.target.value)}
-          />
-
-          <textarea
-            placeholder="Комментарий"
-            onChange={(e) => setComment(e.target.value)}
-          />
-
-          <button onClick={handleRate}>
+        <section className="form-card">
+          <h3 className="section-title">Оценить исполнителя</h3>
+          <div className="form-group">
+            <input
+              type="number"
+              min="1"
+              max="5"
+              value={score}
+              onChange={(e) => setScore(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <textarea
+              placeholder="Комментарий"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+          <button type="button" className="button-primary" onClick={handleRate}>
             Отправить оценку
           </button>
-        </div>
+        </section>
       )}
     </div>
   );

@@ -17,30 +17,38 @@ export default function CreateJob() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Название"
-        onChange={(e) =>
-          setForm({ ...form, title: e.target.value })
-        }
-      />
+    <div className="page-shell">
+      <div className="form-card">
+        <h2>Создать заказ</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <input
+              placeholder="Название"
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
+            />
+          </div>
 
-      <textarea
-        placeholder="Описание"
-        onChange={(e) =>
-          setForm({ ...form, description: e.target.value })
-        }
-      />
+          <div className="form-group">
+            <textarea
+              placeholder="Описание"
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+          </div>
 
-      <input
-        type="number"
-        placeholder="Бюджет"
-        onChange={(e) =>
-          setForm({ ...form, budget: Number(e.target.value) })
-        }
-      />
+          <div className="form-group">
+            <input
+              type="number"
+              placeholder="Бюджет"
+              value={form.budget}
+              onChange={(e) => setForm({ ...form, budget: Number(e.target.value) })}
+            />
+          </div>
 
-      <button type="submit">Создать</button>
-    </form>
+          <button type="submit" className="button-primary">Создать</button>
+        </form>
+      </div>
+    </div>
   );
 }
