@@ -20,6 +20,9 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from django.conf.urls.static import static
+
+from django.conf import settings
 
 
 urlpatterns = [
@@ -36,3 +39,4 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view()),
     path('token/', TokenObtainPairView.as_view()),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
