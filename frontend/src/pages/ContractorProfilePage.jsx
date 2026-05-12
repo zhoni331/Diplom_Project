@@ -29,7 +29,7 @@ export default function ContractorProfilePage() {
         <h2>{user.email}</h2>
         <p><strong>Role:</strong> {user.role}</p>
         {user.role === 'contractor' && (
-          <p><strong>Average Rating:</strong> {user.average_rating} ⭐</p>
+          <p><strong>Average Rating:</strong> {user.average_rating} 🌟</p>
         )}
       </div>
     </div>

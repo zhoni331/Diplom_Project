@@ -4,12 +4,14 @@ import api from "../services/api.js";
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("client");
 
     const handleRegister = async () => {
         try {
             await api.post("/api/register/", {
                 email,
                 password,
+                role,
             });
             alert("Registration successful! Please log in.");
         } catch (error) {
@@ -38,7 +40,7 @@ export default function RegisterPage() {
                     />
                 </div>
                 <div className="form-group">
-                    <select>
+                    <select value={role} onChange={(e) => setRole(e.target.value)}>
                         <option value="client">Client</option>
                         <option value="contractor">Contractor</option>
                     </select>

@@ -26,7 +26,7 @@ export default function JobsFeed() {
             <h3>{job.title}</h3>
             <p>{job.description}</p>
             <div className="job-meta">
-              <span>💰 {job.budget}</span>
+              <span>$ {job.budget}</span>
               <span className="status-pill">{job.status}</span>
             </div>
           </article>

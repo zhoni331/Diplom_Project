@@ -25,7 +25,7 @@ def accept_proposal(user, proposal_id):
     proposal = get_object_or_404(Proposal, id=proposal_id)
     job = proposal.job
 
-    #only client-owner
+    #only client owner
     if job.client != user:
         raise Exception("Not your job")
 
@@ -40,7 +40,7 @@ def accept_proposal(user, proposal_id):
     proposal.status = Proposal.Status.ACCEPTED
     proposal.save()
 
-    #отклоняем остальные 
+    #отклоняем остальные предложения. небольшой баг, после принятия предложения все остальыне отклоняются вне зависимости от стасу, но после рефреша все нормализуется, так что не критично
     other_proposals = Proposal.objects.filter(job=job).exclude(id=proposal.id)
 
     return proposal 

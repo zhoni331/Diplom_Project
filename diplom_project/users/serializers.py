@@ -15,7 +15,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     role = serializers.ChoiceField(
         choices = ["client", "contractor"],
-        default = "client"
+        #default = "client"
     )
 
     class Meta:
@@ -29,6 +29,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data["email"],
             role=role
         )
-        user.set_password(validated_data["password"])  #  важно!
+        user.set_password(validated_data["password"])  
         user.save()
         return user

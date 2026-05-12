@@ -57,7 +57,7 @@ export default function JobPage() {
         score,
         comment,
       });
-      alert("Оценка отправлена ⭐");
+      alert("Оценка отправлена 🌟");
     } catch (err) {
       console.error(err.response?.data || err);
     }

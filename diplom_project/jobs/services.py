@@ -65,21 +65,18 @@ def set_status(user, job_id, new_status):
         JobRequest.Status.CANCELLED: []
     }
 
-    # ❌ запрещённый переход
     if new_status not in allowed[current]:
         raise ValueError("Invalid status transition")
 
-    # 🔥 Бизнес-логика
+    #Бизнес логика для статусов
     if new_status == JobRequest.Status.IN_PROGRESS:
         if not job.contractor:
             raise ValueError("No contractor assigned")
 
     if new_status == JobRequest.Status.COMPLETED:
-        # можно потом триггерить рейтинг
         pass
 
     if new_status == JobRequest.Status.CANCELLED:
-        # можно отклонить все proposals
         from proposals.models import Proposal
         Proposal.objects.filter(job=job).update(status=Proposal.Status.REJECTED)
 

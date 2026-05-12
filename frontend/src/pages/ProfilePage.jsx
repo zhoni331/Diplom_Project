@@ -59,7 +59,7 @@ export default function ProfilePage() {
         {user.role === "contractor" && (
           <div className="form-group">
             <label>Average Rating</label>
-            <p>{user.average_rating} ⭐</p>
+            <p>{user.average_rating} 🌟</p>
           </div>
         )}
 

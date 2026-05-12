@@ -16,12 +16,13 @@ def get_user_by_id(user_id):
         return None
 
 def create_user(data):
-    data['role'] = 'user'  # Ensure role is always set to 'user' when creating via API
-    
-    ##if data.get('role') != 'admin':
-    ##    raise PermissionError("Only admins can create users(cannot create admin via API).")
+    role = data.get("role", "client")
 
-    user = User.objects.create(**data)
+    user = User.objects.create_user(
+        email=data["email"],
+        password=data["password"],
+        role=role,
+    )
     return user
 
 def delete_user(current_user, user_id):

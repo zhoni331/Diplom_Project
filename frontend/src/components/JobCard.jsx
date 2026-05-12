@@ -31,7 +31,7 @@ export default function JobCard({ job }) {
 
       <div className="job-meta">
         <span className="status-pill">{job.status}</span>
-        <span>💰 {job.budget}</span>
+        <span>$ {job.budget}</span>
       </div>
 
       {isContractor && (

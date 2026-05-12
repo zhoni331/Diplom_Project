@@ -32,7 +32,7 @@ export default function ClientDashboard() {
   };
 
   const handleComplete = () => {
-    fetchJobs(); // Refresh list
+    fetchJobs(); 
   };
 
   if (loading) return <div className="page-shell"><p>Loading...</p></div>;
