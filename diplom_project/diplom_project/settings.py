@@ -62,7 +62,7 @@ AUTH_USER_MODEL = 'users.User'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://diplom-project-5vfy62yzy-zhoni331s-projects.vercel.app",
+    "https://diplom-project-pgr5j3qn8-zhoni331s-projects.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
