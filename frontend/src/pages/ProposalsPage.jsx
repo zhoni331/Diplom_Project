@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { getMe } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 const ProposalsPage = () => {
     const [proposals, setProposals] = useState([]);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -53,6 +55,9 @@ const ProposalsPage = () => {
 
                         {user?.role === "client" && p.status === "pending" && (
                             <div className="proposal-actions">
+                                <button type="button" className="button-secondary" onClick={() => navigate(`/contractors/${p.contractor_id}`)}>
+                                    View Profile
+                                </button>
                                 <button type="button" className="button-primary" onClick={() => handleAccept(p.id)}>
                                     Accept
                                 </button>

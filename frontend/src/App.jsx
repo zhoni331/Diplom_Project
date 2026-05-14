@@ -39,6 +39,7 @@ function App() {
         <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />
         <Route path="/contractor/:id" element={<Layout><ContractorProfilePage /></Layout>} />
         <Route path="/my-proposals" element={<Layout><MyProposalsPage /></Layout>} />
+        <Route path="/contractors/:id" element={<Layout><ContractorProfilePage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )

@@ -10,10 +10,13 @@ export default function JobsFeed() {
 
   const fetchJobs = async () => {
     try {
+      console.log("FETCH START");
       const res = await getMyJobs();
+      console.log("FETCH SUCCESS:", res);
       setJobs(res.data);
+      console.log("API RESPONSE:", res.data);
     } catch (err) {
-      console.error(err);
+      console.log("FETCH ERROR:", err);
     }
   };
 

@@ -32,3 +32,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data["password"])  
         user.save()
         return user
+
+class ContractorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'average_rating']
